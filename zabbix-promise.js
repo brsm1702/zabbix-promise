@@ -1,4 +1,9 @@
-'use strict';
+'use strict'
+
+/**
+ * Class representing Zabbix API client
+ */
+;
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -9,6 +14,13 @@ Object.defineProperty(exports, "__esModule", {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Zabbix = (function () {
+    /**
+     * Create Zabbix API client.
+     * @param {string} url - Zabbix API url e.g. http://localhost/zabbix/api_jsonrpc.php
+     * @param {string} user - Zabbix user name
+     * @param {string} password - Zabbix user password
+     */
+
     function Zabbix(url, user, password) {
         _classCallCheck(this, Zabbix);
 
@@ -16,6 +28,13 @@ var Zabbix = (function () {
         this.user = user;
         this.password = password;
     }
+
+    /**
+     * Call Zabbix API method.
+     * @param {string} method - Zabbix API method like "trigger.get", "host.create"
+     * @param {object} params - params object like {filter: {host: ["Zabbix server"]}}
+     * @return {Promise} Promise object
+     */
 
     _createClass(Zabbix, [{
         key: 'call',
@@ -27,8 +46,16 @@ var Zabbix = (function () {
                 method: method,
                 params: params
             };
-            return this._postJsonRpc(this.url, JSON.stringify(request));
+            return this._postJsonRpc(this.url, JSON.stringify(request)).then(function (r) {
+                return Promise.resolve(JSON.parse(r));
+            });
         }
+
+        /**
+         * Log in Zabbix server.
+         * @return {Promise} Promise object
+         */
+
     }, {
         key: 'login',
         value: function login() {
@@ -39,7 +66,7 @@ var Zabbix = (function () {
                 password: this.password
             };
             return this.call('user.login', params).then(function (result) {
-                var reply = JSON.parse(result);
+                var reply = result;
                 _this.auth = reply.result;
                 if (_this.auth === undefined) {
                     return Promise.reject(new Error(JSON.stringify(reply.error)));
@@ -47,13 +74,19 @@ var Zabbix = (function () {
                 return Promise.resolve(result);
             });
         }
+
+        /**
+         * Log out from Zabbix server.
+         * @return {Promise} Promise object
+         */
+
     }, {
         key: 'logout',
         value: function logout() {
             var _this2 = this;
 
             return this.call('user.logout', null).then(function (result) {
-                var reply = JSON.parse(result);
+                var reply = result;
                 if (reply.result === true) {
                     _this2.auth = undefined;
                     return Promise.resolve(result);
