@@ -55,3 +55,46 @@ Trigger ID: 13493, Description: Configured max number of opened files is too low
 Trigger ID: 13490, Description: Less than 25% free in the trends cache
 logged out.
 ```
+
+# JSDoc
+
+## Class: Zabbix
+
+### Zabbix.constructor(url, user, password)
+Create Zabbix API client.
+
+**Parameters**
+
+**url**: `string`, Zabbix API URL e.g. http://localhost/zabbix/api_jsonrpc.php 
+
+**user**: `string`, Zabbix user name
+
+**password**: `string`, Zabbix user password
+
+### Zabbix.call(method, params)
+
+Call Zabbix API method.
+
+**Parameters**
+
+**method**: `string`, Zabbix API method like "trigger.get", "host.create"
+
+**params**: `object`, params object like {filter: {host: ["Zabbix server"]}}
+
+**Returns**: `Promise`, Promise object
+
+### Zabbix.login()
+
+Log in Zabbix server.
+
+**Returns**: `Promise`, Promise object
+
+### Zabbix.logout()
+
+Log out from Zabbix server.
+
+**Returns**: `Promise`, Promise object
+
+
+
+* * *
