@@ -1,6 +1,6 @@
 # Zabbix API with ES6 Promise
 
-This is a promise-base Zabbix API Library for JavaScript.  
+This is a promise-based javascript library for Zabbix API.  
 
 ## Installation
 
@@ -56,7 +56,7 @@ Trigger ID: 13490, Description: Less than 25% free in the trends cache
 logged out.
 ```
 
-# JSDoc
+# Reference
 
 ## Class: Zabbix
 
