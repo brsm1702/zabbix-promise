@@ -1,0 +1,14 @@
+{
+  "name": "zabbix-promise",
+  "version": "1.0.0",
+  "description": "Zabbix API with ES6 Promise",
+  "main": "zabbix-promise.js",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.1.18"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
