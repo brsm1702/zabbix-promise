@@ -1,6 +1,6 @@
 # Zabbix API with ES6 Promise
 
-This is a promise-based javascript library for Zabbix API. This library works as a single js file in web browser. There is no dependency to other libraries such as jquery or node modules. You can load one of the js files below depending on your environment.
+This is a promise-based javascript library for Zabbix API. This library works as a single js file in web browser. There is no dependency to other libraries such as jquery or node modules. You can use this library by loading one of the js files below depending on your environment.
 
 - **zabbix-promise-es6.js**: ES6 class version for pure ES6 environment like babel
 - **zabbix-promise.js**: Babel-compiled version for Chrome, Firefox and Edge
@@ -17,8 +17,8 @@ var Zabbix = require('./zabbix-promise.js');
 ```html
 <script src="./zabbix-promise.js"></script>
 ```
-For ECMAScript6 users, import zabbix-promise-es6.js instead of zabbix-promise.js.
 ### ES6
+For ECMAScript6 users, import zabbix-promise-es6.js instead of zabbix-promise.js.
 ```javascript
 import Zabbix from './zabbix-promise-es6.js';
 ```
