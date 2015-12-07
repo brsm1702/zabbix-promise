@@ -32,7 +32,7 @@ export default class Zabbix {
         };
         return this._postJsonRpc(this.url, JSON.stringify(request))
             .then(r => {
-                return Promise.resolve(JSON.parse(r));
+                return JSON.parse(r);
             });
     }
     
@@ -46,13 +46,12 @@ export default class Zabbix {
             password: this.password
         };
         return this.call('user.login', params)
-            .then(result => {
-                const reply = result;
+            .then(reply => {
                 this.auth = reply.result;
                 if (this.auth === undefined) {
-                    return Promise.reject(new Error(JSON.stringify(reply.error)));
+                    throw new Error(JSON.stringify(reply.error));
                 }
-                return Promise.resolve(result);
+                return reply;
             });
     }
 
@@ -62,14 +61,13 @@ export default class Zabbix {
      */
     logout() {
         return this.call('user.logout', null)
-            .then(result => {
-                const reply = result;
-                if (reply.result === true) {
-                    this.auth = undefined;
-                    return Promise.resolve(result);
-                } else {
-                    return Promise.reject(new Error(JSON.stringify(reply.error)));
-                }
+            .then(reply => {
+                if (reply.result !== true) {
+                    throw new Error(JSON.stringify(reply.error));
+                } 
+                
+                this.auth = undefined;
+                return reply;
             });
     }
 
