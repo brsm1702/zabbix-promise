@@ -47,7 +47,7 @@ var Zabbix = (function () {
                 params: params
             };
             return this._postJsonRpc(this.url, JSON.stringify(request)).then(function (r) {
-                return Promise.resolve(JSON.parse(r));
+                return JSON.parse(r);
             });
         }
 
@@ -65,13 +65,12 @@ var Zabbix = (function () {
                 user: this.user,
                 password: this.password
             };
-            return this.call('user.login', params).then(function (result) {
-                var reply = result;
+            return this.call('user.login', params).then(function (reply) {
                 _this.auth = reply.result;
                 if (_this.auth === undefined) {
-                    return Promise.reject(new Error(JSON.stringify(reply.error)));
+                    throw new Error(JSON.stringify(reply.error));
                 }
-                return Promise.resolve(result);
+                return reply;
             });
         }
 
@@ -85,14 +84,13 @@ var Zabbix = (function () {
         value: function logout() {
             var _this2 = this;
 
-            return this.call('user.logout', null).then(function (result) {
-                var reply = result;
-                if (reply.result === true) {
-                    _this2.auth = undefined;
-                    return Promise.resolve(result);
-                } else {
-                    return Promise.reject(new Error(JSON.stringify(reply.error)));
+            return this.call('user.logout', null).then(function (reply) {
+                if (reply.result !== true) {
+                    throw new Error(JSON.stringify(reply.error));
                 }
+
+                _this2.auth = undefined;
+                return reply;
             });
         }
     }, {
